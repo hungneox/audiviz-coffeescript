@@ -1,0 +1,65 @@
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.pyc
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sqlite
+*.orig
+*.BACKUP*
+*.BASE*
+*.LOCAL*
+*.REMOTE*
+*.csv
+dump.rdb
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Eclipse and editor files
+.buildpath
+.project
+.settings
+
+# Ignore generated sites
+workarea/*
+
+# generated test output
+tests/_output/*
+
+# phpstorm project folder
+.idea/*
+
+
+# Node.js module
+node_modules/
+
+# Bower
+bower_components/

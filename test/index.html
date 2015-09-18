@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>AudiViz (Audio Vizualizer) Demo</title>
+</head>
+<body>
+	<audio id="audioPlayer" src="haru_yo_koi.mp3"></audio>
+	<canvas class="visualizer" width="640" height="100"></canvas>
+
+	<!-- bottom script  -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/audiviz.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var audiviz = new Audiviz(".visualizer", "audioPlayer");
+			audiviz.run();
+		})
+	</script>
+</body>
+</html>
