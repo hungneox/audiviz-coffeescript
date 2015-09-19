@@ -4,14 +4,24 @@
     hasProp = {}.hasOwnProperty;
 
   this.Audiviz = (function() {
-    function Audiviz(canvasClass, playerId) {
+    function Audiviz(canvasClass, playerId, style) {
       this.canvas = document.querySelector(canvasClass);
       this.player = document.getElementById(playerId);
+      this.style = style;
     }
 
     Audiviz.prototype.draw = function() {
       var visualizer;
-      visualizer = new Dots(this.canvas, this.player);
+      switch (this.style) {
+        case "bars":
+          visualizer = new Bars(this.canvas, this.player);
+          break;
+        case "dots":
+          visualizer = new Dots(this.canvas, this.player);
+          break;
+        case "circle":
+          visualizer = new Circle(this.canvas, this.player);
+      }
       return visualizer.draw();
     };
 
@@ -76,18 +86,18 @@
     }
 
     Bars.prototype.draw = function() {
-      var barHeight, barWidth, i, len, ref, results, x;
+      var height, i, len, ref, results, width, x;
       this.setAnimationFrame();
       this.setBackground();
-      barWidth = this.WIDTH / this.bufferLength * 2.5;
+      width = this.WIDTH / this.bufferLength * 2.5;
       x = 0;
       ref = this.dataArray;
       results = [];
       for (i = 0, len = ref.length; i < len; i++) {
-        barHeight = ref[i];
-        this.canvasCtx.fillStyle = 'rgb(' + parseInt(barHeight + 100) + ',50,50)';
-        this.canvasCtx.fillRect(x, this.HEIGHT - (barHeight / 2), barWidth, barHeight / 2);
-        results.push(x += barWidth + 1);
+        height = ref[i];
+        this.canvasCtx.fillStyle = 'rgb(' + parseInt(height + 100) + ',50,50)';
+        this.canvasCtx.fillRect(x, this.HEIGHT - (height / 2), width, height / 2);
+        results.push(x += width + 1);
       }
       return results;
     };
@@ -105,27 +115,62 @@
     }
 
     Dots.prototype.draw = function() {
-      var barHeight, barWidth, i, len, ref, results, x;
+      var height, i, len, ref, results, width, x;
       this.setAnimationFrame();
       this.setBackground();
-      barWidth = this.WIDTH / this.bufferLength * 2.5;
+      width = this.WIDTH / this.bufferLength * 2.5;
       x = 0;
       ref = this.dataArray;
       results = [];
       for (i = 0, len = ref.length; i < len; i++) {
-        barHeight = ref[i];
-        this.canvasCtx.strokeStyle = 'rgb(' + parseInt(barHeight + 100) + ',50,50)';
+        height = ref[i];
+        this.canvasCtx.strokeStyle = 'rgb(' + parseInt(height + 100) + ',50,50)';
         this.canvasCtx.beginPath();
-        this.canvasCtx.arc(x, this.HEIGHT - (barHeight / 2), barWidth / 4, 0, 2 * Math.PI);
-        this.canvasCtx.fillStyle = 'rgb(' + parseInt(barHeight + 100) + ',50,50)';
+        this.canvasCtx.arc(x, this.HEIGHT - (height / 2), width / 4, 0, 2 * Math.PI);
+        this.canvasCtx.fillStyle = 'rgb(' + parseInt(height + 100) + ',50,50)';
         this.canvasCtx.fill();
         this.canvasCtx.stroke();
-        results.push(x += barWidth + 1);
+        results.push(x += width + 1);
       }
       return results;
     };
 
     return Dots;
+
+  })(Base);
+
+  this.Circle = (function(superClass) {
+    extend(Circle, superClass);
+
+    function Circle() {
+      this.draw = bind(this.draw, this);
+      return Circle.__super__.constructor.apply(this, arguments);
+    }
+
+    Circle.prototype.draw = function() {
+      var height, i, len, ref, results, width, x;
+      this.setAnimationFrame();
+      this.setBackground();
+      width = this.WIDTH / this.bufferLength * 2.5;
+      x = 0;
+      ref = this.dataArray;
+      results = [];
+      for (i = 0, len = ref.length; i < len; i++) {
+        height = ref[i];
+        this.canvasCtx.strokeStyle = 'rgb(' + parseInt(height + 100) + ',50,50)';
+        this.canvasCtx.beginPath();
+        this.canvasCtx.arc(this.WIDTH / 2, this.HEIGHT / 2, width * height, 0, 2 * Math.PI);
+        this.canvasCtx.fillStyle = 'rgb(' + parseInt(height + 100) + ',50,50)';
+        this.canvasCtx.fill();
+        this.canvasCtx.lineWidth = 4;
+        this.canvasCtx.strokeStyle = '#ff6600';
+        this.canvasCtx.stroke();
+        results.push(x += width + 1);
+      }
+      return results;
+    };
+
+    return Circle;
 
   })(Base);
 

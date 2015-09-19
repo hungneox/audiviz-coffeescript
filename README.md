@@ -1,10 +1,17 @@
 # Audio visualizer in Coffee script 
 
 # Usage 
+
+
+> new Audiviz(canvasClass, audioPlayer, style);
+
+
+## Sample
+
 ```html
 <script type="text/javascript">
 	$(document).ready(function(){
-		var audiviz = new Audiviz(".visualizer", "myAudio");
+		var audiviz = new Audiviz(".visualizer", "myAudio", 'bars');
 		audiviz.run();
 	})
 </script>
@@ -15,6 +22,9 @@
 
 ## Dots style
 ![Dots](images/dots.png)
+
+## Circle style
+![Dots](images/circle.png)
 
 # Install npm 
 

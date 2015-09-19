@@ -1,10 +1,14 @@
 class @Audiviz
-  constructor: (canvasClass, playerId) ->
+  constructor: (canvasClass, playerId, style) ->
     @canvas    = document.querySelector(canvasClass);
     @player    = document.getElementById(playerId);
+    @style     = style
 
   draw: ->
-    visualizer = new Dots(@canvas, @player)
+    switch @style
+      when "bars" then visualizer = new Bars(@canvas, @player)
+      when "dots" then visualizer = new Dots(@canvas, @player)
+      when "circle" then visualizer = new Circle(@canvas, @player)
     visualizer.draw()
 
   run: ->
@@ -21,7 +25,7 @@ class @Base
     @init(player)
 
   init: (player) ->
-    audioCtx   = new (window.AudioContext || window.webkitAudioContext)()
+    audioCtx  = new (window.AudioContext || window.webkitAudioContext)()
     @analyser = audioCtx.createAnalyser()
     @analyser.fftSize = 256
     @analyser.connect(audioCtx.destination)
@@ -43,12 +47,12 @@ class @Bars extends Base
   draw: () =>
     @setAnimationFrame()
     @setBackground()
-    barWidth = @WIDTH / @bufferLength * 2.5
+    width = @WIDTH / @bufferLength * 2.5
     x = 0
-    for barHeight in @dataArray
-      @canvasCtx.fillStyle = 'rgb(' + parseInt(barHeight + 100) + ',50,50)'
-      @canvasCtx.fillRect x, @HEIGHT - (barHeight / 2), barWidth, barHeight / 2
-      x += barWidth + 1
+    for height in @dataArray
+      @canvasCtx.fillStyle = 'rgb(' + parseInt(height + 100) + ',50,50)'
+      @canvasCtx.fillRect x, @HEIGHT - (height / 2), width, height / 2
+      x += width + 1
 
 
 class @Dots extends Base
@@ -66,3 +70,19 @@ class @Dots extends Base
       @canvasCtx.stroke();
       x += width + 1
 
+class @Circle extends Base
+  draw: () =>
+    @setAnimationFrame()
+    @setBackground()
+    width = @WIDTH / @bufferLength * 2.5
+    x = 0
+    for height in @dataArray
+      @canvasCtx.strokeStyle = 'rgb(' + parseInt(height + 100) + ',50,50)';
+      @canvasCtx.beginPath();
+      @canvasCtx.arc(@WIDTH / 2,  @HEIGHT / 2, width * height, 0, 2 * Math.PI)
+      @canvasCtx.fillStyle = 'rgb(' + parseInt(height + 100) + ',50,50)';
+      @canvasCtx.fill();
+      @canvasCtx.lineWidth = 4;
+      @canvasCtx.strokeStyle = '#ff6600';
+      @canvasCtx.stroke();
+      x += width + 1
