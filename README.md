@@ -10,7 +10,11 @@
 </script>
 ```
 
-![Demo](images/demo.png)
+## Bars style
+![Bars](images/demo.png)
+
+## Dots style
+![Dots](images/dots.png)
 
 # Install npm 
 
