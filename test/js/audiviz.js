@@ -54,7 +54,7 @@
       var audioCtx;
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       this.analyser = audioCtx.createAnalyser();
-      this.analyser.fftSize = 256;
+      this.analyser.fftSize = 2048;
       this.analyser.connect(audioCtx.destination);
       this.source = audioCtx.createMediaElementSource(player);
       return this.source.connect(this.analyser);

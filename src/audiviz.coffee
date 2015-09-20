@@ -27,7 +27,7 @@ class @Base
   init: (player) ->
     audioCtx  = new (window.AudioContext || window.webkitAudioContext)()
     @analyser = audioCtx.createAnalyser()
-    @analyser.fftSize = 256
+    @analyser.fftSize = 2048
     @analyser.connect(audioCtx.destination)
     @source = audioCtx.createMediaElementSource(player)
     @source.connect(@analyser)
