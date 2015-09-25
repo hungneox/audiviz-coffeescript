@@ -5,7 +5,7 @@
 	<title>AudiViz (Audio Vizualizer) Demo</title>
 </head>
 <body>
-	<audio id="audioPlayer" src="gyako.mp3"></audio>
+	<audio id="player" src="gyako.mp3"></audio>
 	<canvas class="visualizer" width="640" height="200"></canvas>
 
 	<!-- bottom script  -->
@@ -13,8 +13,7 @@
 	<script type="text/javascript" src="js/audiviz.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			var audiviz = new Audiviz(".visualizer", "audioPlayer", "circle");
-			audiviz.run();
+			$('#player').audiViz(".visualizer", "circle");
 		})
 	</script>
 </body>

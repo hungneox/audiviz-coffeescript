@@ -1,16 +1,53 @@
 (function() {
-  var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  var slice = [].slice,
+    bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  this.Audiviz = (function() {
-    function Audiviz(canvasClass, playerId, style) {
+  (function($, window) {
+    var Audiviz;
+    return Audiviz = (function() {
+      Audiviz.prototype.defaults = {
+        canvas: '.visualizer',
+        style: 'circle'
+      };
+
+      function Audiviz(el, options) {
+        var audiviz;
+        this.options = $.extend({}, this.defaults, options);
+        this.$el = $(el);
+        audiviz = new Main(el, this.options.canvas, this.options.style);
+        audiviz.run();
+      }
+
+      $.fn.extend({
+        audiViz: function() {
+          var args, option;
+          option = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+          return this.each(function() {
+            var $this, data;
+            $this = $(this);
+            data = $this.data('audiViz');
+            if (!data) {
+              return $this.data('audiViz', (data = new Audiviz(this, option)));
+            }
+          });
+        }
+      });
+
+      return Audiviz;
+
+    })();
+  })(window.jQuery, window);
+
+  this.Main = (function() {
+    function Main(player, canvasClass, style) {
+      this.player = player;
       this.canvas = document.querySelector(canvasClass);
-      this.player = document.getElementById(playerId);
       this.style = style;
     }
 
-    Audiviz.prototype.draw = function() {
+    Main.prototype.draw = function() {
       var visualizer;
       switch (this.style) {
         case "bars":
@@ -25,12 +62,12 @@
       return visualizer.draw();
     };
 
-    Audiviz.prototype.run = function() {
+    Main.prototype.run = function() {
       this.player.play();
       return this.draw();
     };
 
-    return Audiviz;
+    return Main;
 
   })();
 

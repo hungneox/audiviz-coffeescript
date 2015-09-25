@@ -1,7 +1,32 @@
-class @Audiviz
-  constructor: (canvasClass, playerId, style) ->
+(($, window) ->
+  # Define the plugin class
+  class Audiviz
+    defaults:
+      canvas: '.visualizer'
+      style: 'circle'
+
+    constructor: (el, options) ->
+      @options = $.extend({}, @defaults, options)
+      @$el = $(el)
+      audiviz = new Main(el, @options.canvas, @options.style);
+      audiviz.run();
+
+    # Define the plugin
+    $.fn.extend audiViz: (option, args...) ->
+      @each ->
+        $this = $(this)
+        data = $this.data('audiViz')
+        if !data
+          $this.data 'audiViz', (data = new Audiviz(this, option))
+        # if typeof option == 'string'
+        #   data[option].apply(data, args)
+          
+) window.jQuery, window
+
+class @Main
+  constructor: (player, canvasClass, style) ->
+    @player    = player;
     @canvas    = document.querySelector(canvasClass);
-    @player    = document.getElementById(playerId);
     @style     = style
 
   draw: ->
@@ -14,6 +39,7 @@ class @Audiviz
   run: ->
     @player.play()
     @draw()
+
 
 class @Base
   constructor: (canvas, player, background = 'rgb(0, 0, 0)', foreground = 'rgb(100, 50, 50)') ->
@@ -69,6 +95,7 @@ class @Dots extends Base
       @canvasCtx.fill();
       @canvasCtx.stroke();
       x += width + 1
+
 
 class @Circle extends Base
   draw: () =>
