@@ -3,7 +3,7 @@
 # Usage 
 
 
-> new Audiviz(canvasClass, audioPlayer, style);
+> $(audioPlayerElement).audiViz(canvasClass, style);
 
 
 ## Sample
