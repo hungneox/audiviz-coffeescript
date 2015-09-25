@@ -9,10 +9,12 @@
 ## Sample
 
 ```html
+<audio id="player" src="gyako.mp3"></audio>
+<canvas class="visualizer" width="640" height="200"></canvas>
+...
 <script type="text/javascript">
 	$(document).ready(function(){
-		var audiviz = new Audiviz(".visualizer", "myAudio", 'bars');
-		audiviz.run();
+		$('#player').audiViz(".visualizer", "circle");
 	})
 </script>
 ```
