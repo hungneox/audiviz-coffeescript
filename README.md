@@ -31,7 +31,7 @@
 # Install npm 
 
 ```
- curl https://npmjs.org/install.sh | sh
+ curl -L https://npmjs.org/install.sh | sh
 ```
 
 # Install dependencies
